@@ -60,7 +60,7 @@ class Login extends Controller
         }
         unset($_SESSION['user']);
         $_SESSION['errors'] = $errors;
-        redirect('/login');
+        redirect('/');
     }
 
     private function check_password($auth_user, $password){

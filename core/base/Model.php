@@ -63,6 +63,34 @@ class Model
 
         return $collection->data;
     }
+    function total($col)
+    {
+        $query = $this->connection->prepare("SELECT SUM($col) FROM $this->table");
+        $query->execute();
+        $collection = new Collection($query->get_result());
+        return $collection->data;
+    }
+    function topSale()
+    {
+        $query = $this->connection->prepare("  SELECT items.name , sum(items_invoices.quantity) as quantity,
+         items_invoices.item_id FROM $this->table 
+        join items on  items.barcode = items_invoices.item_id
+        group by items_invoices.item_id
+        order by quantity desc limit 5;");
+        $query->execute();
+        $collection = new Collection($query->get_result());
+        return $collection->data;
+    }
+    function topExpinsive()
+    {
+        $query = $this->connection->prepare("  SELECT name  FROM $this->table
+        order by selling_price_per_unit desc limit 5;");
+        $query->execute();
+        $collection = new Collection($query->get_result());
+        return $collection->data;
+    }
+  
+
 
     // Read Single
     function get_by_id($id)
@@ -71,7 +99,8 @@ class Model
         // $query = "SELECT * FROM $this->table WHERE id=$id;";
         // $result = $this->connection->query($query);
         $query_result = $this->execute_by_id("SELECT * FROM $this->table WHERE id=?", $id);
-
+              var_dump($query_result);
+              die;
         $collection = new Collection($query_result);
 
         return !empty($collection->data) ? $collection->data[0] : null;

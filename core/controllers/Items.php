@@ -10,14 +10,14 @@ use Core\Base\Controller;
 use Core\Base\View;
 use Core\Models\User;
 use Core\Models\Item;
-use Core\Models\Items_Entry ;
+use Core\Models\Items_Entry;
 use DateTime;
 use Exception;
 
 class Items extends Controller
 {
 
-    
+
     protected $timeNow;
 
     public function render(): View
@@ -33,7 +33,7 @@ class Items extends Controller
     public function list()
     {
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Procurement']);
         self::set_admin();
         $items = new Item();
         $all_items = $items->get_all();
@@ -41,16 +41,16 @@ class Items extends Controller
         $this->data['items'] = $all_items;
     }
 
-    
+
     public function search()
     {
         $item = new Item();
-       
-            $result =  $item->where('barcode' , $_POST['barcode']);
-            if(empty($result->data) ){
-                echo json_encode( ['status' => '404'] ); 
-                exit();
-            }
+
+        $result =  $item->where('barcode', $_POST['barcode']);
+        if (empty($result->data)) {
+            echo json_encode(['status' => '404']);
+            exit();
+        }
         echo   json_encode(["result" => $result]);
         exit();
     }
@@ -59,7 +59,7 @@ class Items extends Controller
     {
 
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Procurement']);
         self::set_admin();
         $items = new Item();
         // please do not forget to do a validation if the item was not found, to redirect to 404.
@@ -71,7 +71,7 @@ class Items extends Controller
     {
 
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Procurement']);
         self::set_admin();
         $this->view = 'admin.items.add';
     }
@@ -79,44 +79,56 @@ class Items extends Controller
     public function store()
     {
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Procurement']);
         self::set_admin();
-        $items = new Item();
-    
-        $entryItem  = new Items_Entry();
-       
-       try{ 
-        $items->insert([
-            'barcode' => $_POST['barcode'],
-            'name' => $_POST['name'],
-            'quantity' =>  $_POST['quantity'],
-            'discription' => $_POST['discription'],
-            'selling_price_per_unit' => $_POST['sellingPrice'],
-            'user_id' => $_POST['user_id'],
-            'created_at' => $this->dateNow(),
-            'updated_at' => $this->dateNow(),
-        ]);
-        $entryItem->insert([
-            'quantity' =>  $_POST['quantity'],
-            'buy_price_per_unit' => $_POST['buyingPrice'],
-            'user_id' => $_POST['user_id'],
-            'items_barcode' => $_POST['barcode'],
-            'created_at' => $this->dateNow(),
-            'updated_at' => $this->dateNow(),
-        ]);
-        redirect('/admin/items');
-    }
-    catch (Exception $e) {
-        redirect('/admin/items');
-        
-    }
+
+        if (
+            !isset($_POST['user_id']) && !isset($_POST['barcode']) && !isset($_POST['name']) &&
+            !isset($_POST['quantity']) && !isset($_POST['buyingPrice']) && !isset($_POST['sellingPrice'])
+        ) {
+
+            redirect('/admin/items/add');
+        }
+        if (
+            !empty($_POST['user_id']) && !empty($_POST['barcode']) && !empty($_POST['name']) &&
+            !empty($_POST['quantity']) && !empty($_POST['buyingPrice']) && !empty($_POST['sellingPrice'])
+        ) {
+           
+            $items = new Item();
+            $entryItem  = new Items_Entry();
+            try {
+                $items->insert([
+                    'barcode' => $_POST['barcode'],
+                    'name' => $_POST['name'],
+                    'quantity' =>  $_POST['quantity'],
+                    'discription' => $_POST['discription'],
+                    'selling_price_per_unit' => $_POST['sellingPrice'],
+                    'user_id' => $_POST['user_id'],
+                    'created_at' => $this->dateNow(),
+                    'updated_at' => $this->dateNow(),
+                ]);
+                $entryItem->insert([
+                    'quantity' =>  $_POST['quantity'],
+                    'buy_price_per_unit' => $_POST['buyingPrice'],
+                    'user_id' => $_POST['user_id'],
+                    'items_barcode' => $_POST['barcode'],
+                    'created_at' => $this->dateNow(),
+                    'updated_at' => $this->dateNow(),
+                ]);
+                redirect('/admin/items');
+            } catch (Exception $e) {
+                redirect('/admin/items');
+            }
+        } else {
+            redirect('/admin/items/add');
+        }
     }
 
     public function edit()
     {
 
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Procurement']);
         self::set_admin();
         $items = new Item();
         $this->view = 'admin.items.edit';
@@ -126,7 +138,7 @@ class Items extends Controller
     public function update()
     {
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Procurement']);
         self::set_admin();
         $items = new Item();
         $this->timeNow = $this->timeNow->format('Y-m-d h:m');
@@ -144,7 +156,7 @@ class Items extends Controller
     public function delete()
     {
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Procurement']);
         self::set_admin();
         $items = new Item();
 

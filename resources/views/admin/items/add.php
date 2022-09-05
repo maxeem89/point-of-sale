@@ -1,4 +1,13 @@
- 
+ <?php
+
+ ?>
+ <div>
+    <?php if(isset($_SESSION['no']))
+    {
+        echo $_SESSION['no'];
+    }
+    ?>
+ </div>
 <div class="container">
     <h1 class="text-center">Add Item</h1>
     <hr>
@@ -34,3 +43,9 @@
     <a href="/admin/users" class="btn btn-danger my-3">Cancel</a>
 
 </div>
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode == 17 || event.keyCode == 74 ||event.keyCode == 13    )
+            event.preventDefault();
+    });
+</script>

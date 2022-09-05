@@ -37,7 +37,7 @@
 									<i class="fa-solid fa-pen-to-square"><a href="/admin/invoices/edit?id=<?= $invoice->id ?>" class="btn btn-primary btn-xs">
 											<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></i>
 
-									<a href="" class="btn btn-info btn-xs" target="_blank">
+									<a href="/admin/invoices/single?id=?id=<?= $invoice->id ?>" class="btn btn-info btn-xs" >
 										<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
 									<a href="/admin/invoices/delete?id=<?= $invoice->id ?>" class="btn btn-danger btn-xs delete-invoice">
 										<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>

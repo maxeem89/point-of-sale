@@ -37,7 +37,7 @@ class Invoices extends Controller
     public function list()
     {
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Seller']);
         self::set_admin();
         $invoices = new Invoice();
         $all_invoices = $invoices->get_all();
@@ -47,20 +47,23 @@ class Invoices extends Controller
 
     public function single()
     {
+       
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Seller']);
         self::set_admin();
-        $items = new Item();
-        // please do not forget to do a validation if the item was not found, to redirect to 404.
-        $this->view = 'admin.items.single';
-        $this->data['item'] = $items->get_by_barcode($_GET['barcode']);
+        $invoice = new Invoice();
+        $this->data['invoice'] = $invoice->get_by_id($_GET['id']);
+        $this->view = 'admin.invoice.single';
+       
+        var_dump( $this->data['invoice']);
+        die;
     }
 
     public function add()
     {
         $items = new Item();
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Seller']);
         self::set_admin();
         $this->data['items'] = $items->get_all();
         $this->view = 'admin.invoices.add';
@@ -100,12 +103,9 @@ class Invoices extends Controller
     public function edit()
     {
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin','Seller']);
         self::set_admin();
         $id = (int)$_GET['id'];
-        $this->auth();
-        $this->authorize('admin');
-        self::set_admin();
         $invoice = new Invoice();
         $this->data['item'] = $invoice->join($_GET['id']);
         $this->data['id'] = $id;
@@ -157,10 +157,9 @@ class Invoices extends Controller
 
     public function delete()
     {
-        var_dump('here');
-        die;
+       
         $this->auth();
-        $this->authorize('admin');
+        $this->authorize(['admin', 'Seller']);
         self::set_admin();
         $items = new Item();
         $items->deleteWithBarcode($_POST['item_barcode']);

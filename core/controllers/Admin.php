@@ -8,6 +8,9 @@ namespace Core\Controllers;
 
 use Core\Base\Controller;
 use Core\Base\View;
+use Core\Models\Invoice;
+use Core\Models\Item;
+use Core\Models\Items_invoice;
 use Core\Models\User;
 
 class Admin extends Controller
@@ -27,6 +30,15 @@ class Admin extends Controller
         // How many users in our data base.
         $user = new User();
         $users_count = count($user->get_all());
+        $invoice = new Invoice();
+        $invoices_count = count($invoice->get_all());
+        $invoices_total = array_values((array) $invoice->total('total')[0])[0];
+        $items_invoice = new Items_invoice();
+         $top =   $items_invoice->topSale();
+        $topExp = new Item();
+        $topExpinsive = $topExp->topExpinsive();
+        $item = new Item();
+        $items_count  = count($item->get_all());
         // How many News in our database.
       
         // How many tags in our database.
@@ -38,7 +50,12 @@ class Admin extends Controller
         return $this->view('admin.dashboard', [
            
             'users_count' => $users_count,
-           
+           'invoices_count' => $invoices_count,
+           'items_count' => $items_count,
+           'invoices_total' => $invoices_total,
+           'top' => $top,
+           'topExpinsive' => $topExpinsive,
+
         ]);
     }
 

@@ -12,7 +12,6 @@
                 $message
             </div>";
     } ?>
-
     <form method="POST" action="/login">
         <div>
         <div class="imgcontainer">
@@ -39,3 +38,6 @@
         
     </form>
 </div>
+<?php
+	include('resources/views/partials/footer-admin.php');
+?>

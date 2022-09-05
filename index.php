@@ -52,7 +52,7 @@ Router::get('/admin', 'admin'); // permission:all
 // all
 Router::get('/', 'login.form');
 Router::post('/login', 'login.authenticate');
-Router::post('/logout', 'login.logout');
+Router::get('/logout', 'login.logout');
 
 // permission:admin
 Router::get('/admin/users', 'users.list');

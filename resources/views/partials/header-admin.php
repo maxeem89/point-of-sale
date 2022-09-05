@@ -5,7 +5,6 @@ use Core\Models\User;
 $user = new User();
 
 $current_user = $user->get_by_id($_SESSION['user']->user_id);
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -80,14 +79,15 @@ $current_user = $user->get_by_id($_SESSION['user']->user_id);
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- The user image in the navbar-->
-                                <img src="" class="user-image" alt="User Image">
+                               
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs"><?php /*echo $_SESSION['login_username'];*/ ?></span>
+                                <span class="hidden-xs"><?php echo $_SESSION['user']->username; ?></span>
+                                 <!-- The user image in the navbar-->
+                                 <img src="<?php base_url("resources/img/img_avatar.png"); ?>" class="user-image" alt="User Image">
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- Drop down list-->
-                                <li><a href="logout.php" class="btn btn-default btn-flat">Log out</a></li>
+                                <li><a href="/logout" class="btn btn-default btn-flat">Log out</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -114,6 +114,8 @@ $current_user = $user->get_by_id($_SESSION['user']->user_id);
 
                     </li>
                     <!-- Menu 1 -->
+
+                    <?php if($current_user->roles == 'admin' ||$current_user->roles == 'Seller'){?>
                     <li class="treeview">
                         <a href="#"><i class="fa fa-file-text"></i> <span>Invoices</span>
                             <span class="pull-right-container">
@@ -125,7 +127,10 @@ $current_user = $user->get_by_id($_SESSION['user']->user_id);
                             <li><a href="/admin/invoices"><i class="fa fa-cog"></i>Manage Invoices</a></li>
                         </ul>
                     </li>
+                    <?php } ?>
                     <!-- Menu 2 -->
+                    <?php if($current_user->roles == 'admin' ||$current_user->roles == 'Procurement'){?>
+
                     <li class="treeview">
                         <a href="#"><i class="fa fa-archive"></i><span>Products</span>
                             <span class="pull-right-container">
@@ -137,8 +142,10 @@ $current_user = $user->get_by_id($_SESSION['user']->user_id);
                             <li><a href="/admin/items"><i class="fa fa-cog"></i>Manage Products</a></li>
                         </ul>
                     </li>
+                    <?php } ?>
 
                     <!-- Menu 3 -->
+                    <?php if($current_user->roles == 'admin'){?>
                     <li class="treeview">
                         <a href="#"><i class="fa fa-user"></i><span>System Users</span>
                             <span class="pull-right-container">
@@ -150,6 +157,7 @@ $current_user = $user->get_by_id($_SESSION['user']->user_id);
                             <li><a href="/admin/users"><i class="fa fa-cog"></i>Manage Users</a></li>
                         </ul>
                     </li>
+                    <?php } ?>
 
                 </ul>
                 <!-- /.sidebar-menu -->

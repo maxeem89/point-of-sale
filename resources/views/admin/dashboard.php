@@ -1,7 +1,4 @@
 
-
-
-
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
@@ -9,9 +6,8 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3> </h3>
-
                     <p>Sales Amount</p>
+                    <h3> <?= $data->invoices_total?></h3>
                 </div>
                 <div class="icon">
                     <i class="ion ion-social-usd"></i>
@@ -24,14 +20,30 @@
             <!-- small box -->
             <div class="small-box bg-purple">
                 <div class="inner">
-                    <h3>
-
-                    </h3>
-
                     <p>Total Invoices</p>
+                    <h3> <?= $data->invoices_count ?></h3>
                 </div>
                 <div class="icon">
                     <i class="ion ion-printer"></i>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3> </h3>
+
+                    <p>Top Five Items Sale</p>
+                    <?php foreach($data->top as $item){?>
+                    <h3><?= $item->name ?></h3>
+                    <?php } ?>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-alert-circled"></i>
                 </div>
 
             </div>
@@ -43,7 +55,11 @@
                 <div class="inner">
                     <h3></h3>
 
-                    <p>Pending Bills</p>
+                    <p>Top five expensive items to buy</p>
+                    <?php foreach($data->topExpinsive as $top){?>
+                    <h3><?= $top->name ?></h3>
+                    <?php } ?>
+                    
                 </div>
                 <div class="icon">
                     <i class="ion ion-load-a"></i>
@@ -52,24 +68,8 @@
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <h3> </h3>
-
-                    <p>Due Amount</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-alert-circled"></i>
-                </div>
-
-            </div>
-        </div>
-        <!-- ./col -->
     </div>
     <!-- /.row -->
-
 
     <!-- 2nd row -->
     <div class="row">
@@ -77,9 +77,9 @@
             <!-- small box -->
             <div class="small-box bg-primary">
                 <div class="inner">
-                    <h3></h3>
-
+                    
                     <p>Total Products</p>
+                    <h3> <?= $data->items_count ?></h3>
                 </div>
                 <div class="icon">
                     <i class="ion ion-social-dropbox"></i>
@@ -121,12 +121,8 @@
         </div>
     </div>
 
-
-
 </section>
 <!-- /.content -->
-
-
 
 <?php
 

@@ -1,1 +1,1 @@
-#
+# config.php contains all the configrations for the database connection.

@@ -99,10 +99,7 @@ class Model
         // $query = "SELECT * FROM $this->table WHERE id=$id;";
         // $result = $this->connection->query($query);
         $query_result = $this->execute_by_id("SELECT * FROM $this->table WHERE id=?", $id);
-              var_dump($query_result);
-              die;
         $collection = new Collection($query_result);
-
         return !empty($collection->data) ? $collection->data[0] : null;
     }
     function get_by_barcode($barcode)

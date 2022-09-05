@@ -39,7 +39,7 @@
 
                     <p>Top Five Items Sale</p>
                     <?php foreach($data->top as $item){?>
-                    <h3><?= $item->name ?></h3>
+                    <h5>* <?= $item->name ?></h5>
                     <?php } ?>
                 </div>
                 <div class="icon">
@@ -57,7 +57,7 @@
 
                     <p>Top five expensive items to buy</p>
                     <?php foreach($data->topExpinsive as $top){?>
-                    <h3><?= $top->name ?></h3>
+                    <h5>* <?= $top->name ?></h5>
                     <?php } ?>
                     
                 </div>

@@ -47,16 +47,14 @@ class Invoices extends Controller
 
     public function single()
     {
-       
+     
         $this->auth();
         $this->authorize(['admin','Seller']);
         self::set_admin();
         $invoice = new Invoice();
-        $this->data['invoice'] = $invoice->get_by_id($_GET['id']);
-        $this->view = 'admin.invoice.single';
-       
-        var_dump( $this->data['invoice']);
-        die;
+        $this->data['item'] = $invoice->joinWithAll($_GET['id']);
+        $this->view = 'admin.invoices.single';
+        
     }
 
     public function add()
@@ -159,7 +157,7 @@ class Invoices extends Controller
     {
        
         $this->auth();
-        $this->authorize(['admin', 'Seller']);
+        $this->authorize(['admin']);
         self::set_admin();
         $items = new Item();
         $items->deleteWithBarcode($_POST['item_barcode']);

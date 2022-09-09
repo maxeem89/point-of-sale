@@ -113,25 +113,41 @@ class Model
     }
     function join($id)
     {
-
-
+     
         $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-
-
         $query = "SELECT invoices.*, items_invoices.*
         FROM invoices
         JOIN items_invoices ON invoices.id = items_invoices.invoice_id
-        where invoices.id = " . $id . ";";
-
+        where invoices.id = " .$id . ";";
         $collection = [];
         $result = mysqli_query($mysqli, $query);
-
         while ($row = mysqli_fetch_object($result)) {
             $collection[] = (array)$row;
         }
 
         return $collection;
     }
+  
+    // get All data form invoice and invoice_items and items to show it
+    function joinWithAll($id)
+    {
+      
+        $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+        $query = "SELECT invoices.*, items_invoices.*, items.* , users.*
+        FROM invoices
+        JOIN items_invoices ON invoices.id = items_invoices.invoice_id
+        JOIN items ON items_invoices.item_id = items.barcode
+        JOIN users ON invoices.user_id = users.id
+        where invoices.id = " .$id . ";";
+        $collection = [];
+        $result = mysqli_query($mysqli, $query);
+        while ($row = mysqli_fetch_object($result)) {
+            $collection[] = (array)$row;
+        }
+
+        return $collection;
+    }
+
 
     // Delete
     function delete($id)

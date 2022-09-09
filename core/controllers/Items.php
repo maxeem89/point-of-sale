@@ -45,13 +45,12 @@ class Items extends Controller
     public function search()
     {
         $item = new Item();
-
         $result =  $item->where('barcode', $_POST['barcode']);
         if (empty($result->data)) {
             echo json_encode(['status' => '404']);
             exit();
         }
-        echo   json_encode(["result" => $result]);
+        echo  json_encode(["result" => $result]);
         exit();
     }
 

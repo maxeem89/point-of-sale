@@ -61,7 +61,6 @@
                 var arr = {};
                 var barcode1 = "" + <?= $item['item_id']; ?>;
                 checkArray[barcode1] = [];
-                console.log(barcode1);
                 arr['barcode'] = barcode1;
                 try {
                     const res = await getData(arr, barcode1, <?= $item['quantity'] ?>)
@@ -81,11 +80,11 @@
                 url: '/admin/items/search',
                 data: arr,
                 success: function(response) {
+                    console.log(response);
                     let data = JSON.parse(response);
                     checkArray[barcode1]["quantity"] = data.result.data[0].quantity + qui1;
                     checkArray[barcode1]["price"] = data.result.data[0].selling_price_per_unit;
                     checkArray[barcode1]["qu"] = qui1;
-                    console.log(barcode1);
                     var productname = data.result.data[0].name;
                     var quantity = data.result.data[0].quantity;
                     var price = parseFloat(data.result.data[0].selling_price_per_unit);
@@ -105,7 +104,7 @@
                     currentTotal = currentTotal + (price * qui1);
                     $('#total').val(currentTotal);
                     $('#barcode').val('');
-                    console.log(checkArray);
+                 
 
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -145,6 +144,7 @@
                             let data = JSON.parse(response);
                             if (data.status =='404') {
                                 error();
+                                $('#barcode').val(''); 
                             } else {
                             
                                 if (data.result.data[0].quantity > 0) {

@@ -13,6 +13,8 @@ use Core\Models\Item;
 use Core\Models\Items_Entry;
 use DateTime;
 use Exception;
+use mysqli;
+use PDO;
 
 class Items extends Controller
 {
@@ -56,12 +58,11 @@ class Items extends Controller
 
     public function single()
     {
-
+       
         $this->auth();
         $this->authorize(['admin','Procurement']);
         self::set_admin();
         $items = new Item();
-        // please do not forget to do a validation if the item was not found, to redirect to 404.
         $this->view = 'admin.items.single';
         $this->data['item'] = $items->get_by_barcode($_GET['barcode']);
     }

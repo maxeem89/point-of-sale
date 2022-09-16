@@ -45,7 +45,7 @@ class Model
         $this->connection->close();
     }
 
-
+    // excute query by id fom table 
     protected function execute_by_id($sql, $id)
     {
         $query = $this->connection->prepare($sql);
@@ -63,6 +63,7 @@ class Model
 
         return $collection->data;
     }
+    // get total from table transaction to show all total
     function total($col)
     {
         $query = $this->connection->prepare("SELECT SUM($col) FROM $this->table");
@@ -70,6 +71,8 @@ class Model
         $collection = new Collection($query->get_result());
         return $collection->data;
     }
+        // get top 5 sales   to show in dashboard
+
     function topSale()
     {
         $query = $this->connection->prepare("  SELECT items.name , sum(items_invoices.quantity) as quantity,
@@ -81,6 +84,7 @@ class Model
         $collection = new Collection($query->get_result());
         return $collection->data;
     }
+            // get top 5 expinsive  from tabel items  to show in dashboard
     function topExpinsive()
     {
         $query = $this->connection->prepare("  SELECT name  FROM $this->table
@@ -102,15 +106,18 @@ class Model
         $collection = new Collection($query_result);
         return !empty($collection->data) ? $collection->data[0] : null;
     }
+ // Read Single
     function get_by_barcode($barcode)
     {
         // Unsecure way of dealing with SQL statements:
-        // $query = "SELECT * FROM $this->table WHERE id=$id;";
+        // $query = "SELECT * FROM $this->table WHERE barcode=$barcode;";
         // $result = $this->connection->query($query);
         $query_result = $this->execute_by_id("SELECT * FROM $this->table WHERE barcode=?", $barcode);
         $collection = new Collection($query_result);
         return !empty($collection->data) ? $collection->data[0] : null;
     }
+    // get information from tow table to retrun invoice with all info and items salled to edit it 
+  
     function join($id)
     {
      
@@ -128,7 +135,7 @@ class Model
         return $collection;
     }
   
-    // get All data form invoice and invoice_items and items to show it
+    // get All data form invoice and invoice_items and items and users to show it in single invoice page 
     function joinWithAll($id)
     {
       
@@ -232,6 +239,8 @@ class Model
         $query->bind_param($bind_types, ...$bind_values_arr);
         return $query->execute();
     }
+
+    //excute update invoice by barcode
     function updateWithBarcode($barcode, $col_val_arr)
     {
         $col_val = '';
@@ -282,17 +291,18 @@ class Model
         $this->data = $collection->data;
         return $this;
     }
-
+   //return all
     function all()
     {
         return $this->data;
     }
-
+     
+    //return first element 
     function first()
     {
         return !empty($this->data) ? $this->data[0] : null;
     }
-
+  // return count
     function count()
     {
         return count($this->data);

@@ -34,6 +34,7 @@ class Invoices extends Controller
         self::unset_admin();
     }
 
+    // return list of invoices info 
     public function list()
     {
         $this->auth();
@@ -44,7 +45,7 @@ class Invoices extends Controller
         $this->view = 'admin.invoices.list';
         $this->data['invoices'] = $all_invoices;
     }
-
+  // return invoice by id of invoices info 
     public function single()
     {
      
@@ -56,7 +57,7 @@ class Invoices extends Controller
         $this->view = 'admin.invoices.single';
         
     }
-
+ // add new invoice 
     public function add()
     {
         $items = new Item();
@@ -66,7 +67,7 @@ class Invoices extends Controller
         $this->data['items'] = $items->get_all();
         $this->view = 'admin.invoices.add';
     }
-
+ // store new invoice 
     public function store()
     {
         $this->auth();
@@ -76,11 +77,13 @@ class Invoices extends Controller
         $itemsInvoice = new Items_invoice();
         $invoice = new Invoice();
         $item = new Item();
+        //insert in table invoice user_id , total 
         $invoiceId =  $invoice->insert([
             'user_id' => $_SESSION['user']->user_id,
             'total' => $_POST['total'],
             'created_at' => $this->dateNow(),
         ]);
+        //insert in tabel items_invoice (items  with invoice id with details of item )
         foreach ($result['serialNumber'] as $key => $value) {
             $itemsInvoice->insert([
                 'item_id' =>  $result['serialNumber'][$key],
@@ -97,7 +100,7 @@ class Invoices extends Controller
         exit();
     }
 
-
+ // edit invoice
     public function edit()
     {
         $this->auth();
@@ -109,7 +112,7 @@ class Invoices extends Controller
         $this->data['id'] = $id;
         $this->view = 'admin.invoices.add';
     }
-
+ // update invoice
     public function update()
     {
         $result =   $_POST;
@@ -125,6 +128,7 @@ class Invoices extends Controller
             $oldItem = $oldItem->get_by_barcode($barcode);
             $total = $oldItem->quantity + $quantity;
             $newItem->updateWithBarcode($item['item_id'], ['quantity' => $total]);
+            //delete invoice before insert new invoice with new details
             $invoice->delete($invoice_id);
         }
 
@@ -152,7 +156,7 @@ class Invoices extends Controller
 
        
     }
-
+   // delete invoice 
     public function delete()
     {
        

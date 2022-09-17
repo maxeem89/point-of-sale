@@ -27,12 +27,12 @@ $current_user = $user->get_by_id($_SESSION['user']->user_id);
 
     <!-- JS -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="<?php base_url("resources/js/moment.js"); ?>"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
-    <script src="http://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
     <script src="<?php base_url("resources/js/bootstrap.datetime.js"); ?>"></script>
     <script src="<?php base_url("resources/js/bootstrap.password.js"); ?>"></script>
     <script src="<?php base_url("resources/js/scripts.js"); ?>"></script>

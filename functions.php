@@ -19,5 +19,5 @@ function check_permission($permission){
 }
 
 function base_url($path){
-    echo "http://" . $_SERVER['HTTP_HOST'] . "/$path";
+    echo "https://" . $_SERVER['HTTP_HOST'] . "/$path";
 }
